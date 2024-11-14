@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/clockpicker/dist/jquery-clockpicker.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<%- include('partials/header.ejs') %>
+  <style>
+    .card {
+      color: #fff;
+    }
+
+    .form-control:disabled {
+      background-color: #2a3038;
+    }
+
+    .btn:not(:disabled) {
+      background-color: black;
+      color: white;
+      height: 30px;
+    }
+
+    .btn:not(:disabled):hover {
+      /* background-color: white; */
+      color: white;
+    }
+
+
+    .clockpicker-button {
+      color: black;
+    }
+  </style>
+
+  <body>
+    <div class="container-scroller">
+      <%- include('partials/sidebar.ejs') %>
+        <div class="container-fluid page-body-wrapper">
+          <%- include('partials/navbar.ejs') %>
+            <div class="main-panel">
+              <div class="content-wrapper">
+                <section class="content">
+                  <div class="card">
+                    <div class="card-header">
+                      <h1 class="card-title">Edit Working Hour</h1>
+                      <input type="checkbox" name="addHour" id="addUserHour">
+                      <label for="addUserHour" class="ml-2">Add Hour</label>
+                    </div>
+                    <div class="card-body">
+                      <form method="post" action="" id="addHour"><br>
+                        <div class="row">
+                          <div class="col-3">
+                            <label for="Name"> Start Time: <span class="require">*</span></label>
+                            <!-- <div class="input-group clockpicker" data-placement="top" data-align="top" data-autoclose="true"> -->
+                            <input type="text" class="form-control" name="start_time" autocomplete="off"
+                              onchange="checkHour()" id="start_time" value="<%=workingData.start_time%>">
+                            <span class="text-danger" id="start_time_error"></span>
+                            <!-- </div> -->
+                          </div>
+                          <div class="col-3 ">
+                            <label for="Name">End Time: <span class="require">*</span></label>
+                            <!-- <div class="input-group clockpicker" data-placement="top" data-align="top"
+                              data-autoclose="true"> -->
+                            <input type="text" autocomplete="off" class="form-control" name="end_time"
+                              onchange="checkHour()" id="end_time" value="<%=workingData.end_time%>">
+                            <span class="text-danger" id="end_time_error"></span>
+                            <!-- </div> -->
+                          </div>
+                          <div class="col-3">
+                            <label for="date">Date<span class="require">*</span></label>
+                            <input type="date" name="date" class="form-control" id="mydate">
+                          </div>
+                          <div class="col-3">
+                            <label for="Name">Total TIme <span class="require">*</span></label>
+                            <input type="text" name="total_hour" readonly id="total_hours"
+                              value="<%=workingData.total_hour%>" class="form-control">
+                          </div>
+                        </div>
+
+                        <div class="col-12 mt-5">
+                          <button type="submit" name="submit" id="submit" class="btn btn-primary">Submit</button>
+                          <a class="btn btn-danger" href="/showWorkingHour">Back</a>
+                        </div>
+                      </form>
+                      <form method="post" action="" id="addHourForm"><br>
+                        <div class="card-header pt-5">
+                          <h1 class="card-title">Add Working Hour</h1>
+                        </div>
+                        <div class="row">
+                          <div class="col-3">
+                            <label for="Name"> Start Time: <span class="require">*</span></label>
+                            <!-- <div class="input-group clockpicker" data-placement="top" data-align="top" data-autoclose="true"> -->
+                            <input type="text" class="form-control" name="start_time" autocomplete="off"
+                              onchange="checkHour()" id="start_time" value="">
+                            <span class="text-danger" id="start_time_error"></span>
+                            <!-- </div> -->
+                          </div>
+                          <div class="col-3 ">
+                            <label for="Name">End Time: <span class="require">*</span></label>
+                            <!-- <div class="input-group clockpicker" data-placement="top" data-align="top"
+                              data-autoclose="true"> -->
+                            <input type="text" autocomplete="off" class="form-control" name="end_time"
+                              onchange="checkHour()" id="end_time" value="">
+                            <span class="text-danger" id="end_time_error"></span>
+                            <!-- </div> -->
+                          </div>
+                          <div class="col-3">
+                            <label for="date">Date<span class="require">*</span></label>
+                            <input type="date" name="date" class="form-control" id="mydate">
+                          </div>
+                          <div class="col-3">
+                            <label for="Name">Total TIme <span class="require">*</span></label>
+                            <input type="text" name="total_hour" readonly id="total_hours" value=""
+                              class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-12 mt-5">
+                          <button type="submit" name="submit" id="submit" class="btn btn-primary">Submit</button>
+                          <a class="btn btn-danger" href="/showWorkingHour">Back</a>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+              <script>
+
+
+                $(document).ready(function () {
+                  $('#addHourForm').hide(); 
+                  $('#addUserHour').change(function () {
+                    if ($(this).is(':checked')) {
+                      $('#addHourForm').show();
+                    } else {
+                      $('#addHourForm').hide();
+                    }
+                  });
+                });
+
+
+                const todayDate = new Date().toISOString().substr(0, 10);
+                document.getElementById("mydate").value = todayDate;
+
+                $("#start_time").change(function () {
+                  var start_time = $("#start_time").val()
+                  //  alert(start_time)
+                  document.getElementById('end_time').removeAttribute("disabled");
+                  // $('input[name="end_time"]').val('');
+                  //  document.getElementById('end_date').setAttribute('min', start_date);
+                })
+                $("#end_time").change(function () {
+                  var start_time = $("#start_time").val();
+                  var end_time = $("#end_time").val();
+
+                  // Parse the start and end times with moment.js using the "h:mm A" format string
+                  var start_moment = moment(start_time, 'h:mm A');
+                  var end_moment = moment(end_time, 'h:mm A');
+
+                  // Compare the times using moment.js's `isBefore()` method
+                  if (end_time && end_moment.isBefore(start_moment)) {
+                    $("#end_time_error").html("End time must be greater than start time");
+                    $("#total_hours").val("");
+                  } else {
+                    $("#end_time_error").html("");
+                  }
+                });
+
+
+                $('input[name="start_time"]').clockpicker({
+                  donetext: 'Apply Time',
+                  // autoclose: true,
+                  twelvehour: true,
+                  afterDone: function () {
+                    var start = $('input[name="start_time"]').val();
+                    var end = $('input[name="end_time"]').val();
+
+                    // convert start and end times from 12-hour to 24-hour format
+                    var start24 = moment(start, 'h:mm A').format('HH:mm');
+                    var end24 = moment(end, 'h:mm A').format('HH:mm');
+
+                    var start_moment = moment(start24, 'HH:mm');
+                    var end_moment = moment(end24, 'HH:mm');
+                    var diff_moment = end_moment.diff(start_moment, 'minutes');
+                    var diff_hours = Math.floor(diff_moment / 60);
+                    var diff_minutes = diff_moment % 60;
+                    var hours = ('0' + diff_hours).slice(-2)
+                    var minutes = ('0' + diff_minutes).slice(-2)
+
+                    $('input[name="start_time"]').val(start24)
+
+                    if (start !== "" && end !== "") {
+                      $('#total_hours').val(hours + ':' + minutes);
+                    }
+                  }
+                });
+                $('input[name="end_time"]').clockpicker({
+                  // autoclose: true,
+                  twelvehour: true,
+                  donetext: 'Apply Time',
+                  afterDone: function () {
+                    var start = $('input[name="start_time"]').val();
+                    var end = $('input[name="end_time"]').val();
+
+                    // convert start and end times from 12-hour to 24-hour format
+                    var start24 = moment(start, 'h:mm A').format('HH:mm');
+                    var end24 = moment(end, 'h:mm A').format('HH:mm');
+
+                    var start_moment = moment(start24, 'HH:mm');
+                    var end_moment = moment(end24, 'HH:mm');
+                    var diff_moment = end_moment.diff(start_moment, 'minutes');
+                    var diff_hours = Math.floor(diff_moment / 60);
+                    var diff_minutes = diff_moment % 60;
+                    var hours = ('0' + diff_hours).slice(-2)
+                    var minutes = ('0' + diff_minutes).slice(-2)
+
+                    $('input[name="end_time"]').val(end24)
+
+                    if (start !== "" && end !== "") {
+                      $('#total_hours').val(hours + ':' + minutes);
+                    }
+                  }
+                });
+                var today = new Date().toISOString().split('T')[0];
+                // document.getElementById('mydate').setAttribute('min', today);
+                document.getElementById('mydate').setAttribute('max', today);
+              </script>
+              <%- include('partials/footer.ejs') %>
+  </body>
+
+</html>
+<script>
+
+
+  $(document).ready(function ($) {
+    $("#addHour").validate({
+      rules: {
+        start_time: {
+          required: true,
+        },
+        end_time: {
+          required: true,
+        },
+        date: {
+          required: true,
+        },
+      },
+      messages: {
+        start_time: {
+          required: "Start Time is reqired",
+        },
+        end_time: {
+          required: "End Time is reqired",
+        },
+        date: {
+          required: "Date is reqired",
+        },
+      },
+
+    });
+  });
+
+
+  function checkHour() {
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = ('0' + (d.getMonth() + 1)).slice(-2);
+    var day = ('0' + d.getDate()).slice(-2);
+    var dateString = year + '-' + month + '-' + day;
+
+    var user_id = '<%=loggeduserdata._id%>'
+    var starttime = $('#start_time').val()
+    var endtime = $('#end_time').val()
+    var start24 = moment(starttime, 'h:mm A').format('HH:mm');
+    var end24 = moment(endtime, 'h:mm A').format('HH:mm');
+    var Hour_id = "<%=workingData._id%>"
+
+    //console.log(starttime)
+    $.ajax({
+      type: "POST",
+      url: "/api/checkHour/",
+      data: { 'date': dateString, 'user_id': user_id, hour_id: Hour_id },
+      dataType: "json",
+      success: function (response) {
+        //console.log(response)
+        let isNotAvailable = false;
+        for (let i = 0; i < response.workingHourData.length; i++) {
+          const start_time = moment(response.workingHourData[i].start_time, 'h:mm A').format('HH:mm');
+          const end_time = moment(response.workingHourData[i].end_time, 'h:mm A').format('HH:mm');
+          if (start24 >= start_time && start24 <= end_time || end24 >= start_time && end24 <= end_time) {
+            isNotAvailable = true;
+            break;
+          }
+        }
+        if (isNotAvailable) {
+          $("#start_time_error").html("Start Time Or End Time Already Exist");
+        } else {
+          $("#start_time_error").html("");
+        }
+      }
+    });
+
+  }
+
+
+
+</script>

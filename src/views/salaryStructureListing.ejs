@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/header.ejs') %>
+
+
+    <body>
+        <div class="container-scroller">
+            <%- include('partials/sidebar.ejs') %>
+                <div class="container-fluid page-body-wrapper">
+                    <%- include('partials/navbar.ejs') %>
+                        <div class="main-panel">
+                            <div class="content-wrapper">
+
+                                <div class="row ">
+                                    <div class="col-12 grid-margin">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <% if(addStatus== true){%>
+                                                <a class="nav-link btn btn-success create-new-button float-right"
+                                                    id="createbuttonDropdown" c href="/addSalaryStructure">+ Add Salary
+                                                    Structure </a>
+                                                <%}%>
+                                                <h1 class=" card-title">Salary Structures </h1>
+                                                                    <!-- <a href="/addHoliday" style="float:right;"><button class="btn btn-dark"><i
+                                              class="fas fa-plus"></i></button></a> -->
+                                                                    <div class="table-responsive">
+                                                                        <table class="table" id="myTable">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>#</th>
+                                                                                    <th>User</th>
+                                                                                    <th>Basic Salary</th>
+                                                                                    <th>HRA</th>
+                                                                                    <th>Other Allownces</th>
+                                                                                    <th>PA</th>
+                                                                                    <th>Bonus</th>
+                                                                                    <th>Other</th>
+                                                                                    <th>ELEncashments </th>
+                                                                                    <th>Professional Tax</th>
+                                                                                    <th>IT</th>
+                                                                                    <th>Gratuity</th>
+                                                                                    <th>PF</th>
+                                                                                    <th>ESIC</th>
+                                                                                    <th>Other Deduction</th>
+                                                                                    <th>Total Salary</th>
+                                                                                    <th>Gross Salary</th>
+                                                                                    <th>Total Deduction</th>
+                                                                                    <th>Net Salary</th>
+                                                                                    <th>Status</th>
+                                                                                    <th>Year</th>
+                                                                                    <% if(updateStatus==true  ){ %>
+                                                                                    <th>Action</th>
+                                                                                    <%}%>
+                                                                                    <!-- <th>Absent Day</th>
+                                                                <th>gross_salary</th>
+                                                                <th>Dedunction</th>
+                                                                <th>Net Salary</th> -->
+
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody id="salary_structure">
+                                                                                <% var k=1; %>
+                                                                                    <% salaryStructureData.forEach(function(salaryStructure)
+                                                                                        { %>
+                                                                                            <% salaryStructure.userData.forEach(function(user)
+                                                                                            { %>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <%-k++%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                user.firstname%>
+                                                                                            </td>
+                                                                                           
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Basic_Salary%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.House_Rent_Allow%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Other_Allownces%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Performance_Allownces%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Bonus%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Other%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.EL_Encash_Amount%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Professional_Tax%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Income_Tax%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Gratuity%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Provident_Fund%>
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.ESIC%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Other_Deduction%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Total_Salary%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Gross_Salary%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Total_Deduction%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.Net_Salary%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.status%>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <%-
+                                                                                                salaryStructure.year%>
+                                                                                            </td>
+                                                                                            <% if(updateStatus==true){ %>
+                                                                                            <td>
+                                                                                                <a href="/editSalaryStructure/<%= salaryStructure._id %>" class="btn btn-lg"><i
+                                                                                                    class="fa-solid fa-pen-to-square fa-2x text-primary"></i></a>
+                                                                                            </td>
+                                                                                            <%}%>
+                                                                                        </tr>
+
+                                                                                        <% }) %>
+                                                                                       
+                                                                                        <% }) %>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <%- include('partials/footer.ejs') %>
+
+    </body>
+
+</html>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+
+    function openModal(modal_id) {
+        //$('.confirm-delete').addClass('hide');
+        $('#myModal_' + modal_id + '.modal-header, .modal-footer, .modal-body').removeClass('hide');
+        $('#myModal_' + modal_id).modal('show');
+    }
+
+    // $("#user").change(function () {
+    //     var user = $('#user').val()
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/api/getUSerSalaryStructure",
+    //         data: { 'user': user },
+    //         dataType: "json",
+    //         success: function (response) {
+    //             $('#myTable').DataTable().destroy();
+    //             //console.log(response)
+    //             $("#salary_structure").html('');
+    //             $.map(response.salaryStructureData, function (val, i) {
+
+    //                 $('#salary_structure').append('<tr id = "' + val._id + '"> <td>' + ++i + '</td> <td>' + val.particular_name + '</td>  <td>' + val.type + '</td> <td>' + val.status + '</td><td>' + val.amount + '</td> <td>' + val.year + '</td> <td>' + '<a href="/editSalryStructure/' + val._id + '" class="btn btn-lg"> <i class="fa-solid fa-pen-to-square fa-2x text-primary"></i></a>' + '</td> </tr>')
+
+    //             });
+    //             $('#myTable').DataTable()
+    //         }
+    //     })
+    // })
+
+
+</script>

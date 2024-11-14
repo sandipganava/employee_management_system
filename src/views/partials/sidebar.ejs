@@ -1,0 +1,298 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+    <div id="image">
+
+    </div>
+    <!-- <a class="sidebar-brand brand-logo" href="/index"><img src="/public/images/" alt="logo" /></a> -->
+    <!-- <a class="sidebar-brand brand-logo-mini" href="/index"><img src="assets/images/logo-mini.svg" alt="logo" /></a> -->
+  </div>
+  <ul class="nav">
+    <li class="nav-item profile ">
+    <li class="nav-item nav-category mt-5">
+      <span class="nav-link">Navigation</span>
+    </li>
+
+    <li class="nav-item menu-items">
+      <a class="nav-link aman" href="/">
+        <span class="menu-icon">
+          <i class="mdi mdi-speedometer"></i>
+        </span>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item nav-category">
+      
+      <% if(roleHasPermission.includes("View Employees") && roleHasPermission.includes("View Holidays")){ %>
+      <span class="nav-link">Holidays & Employees</span>
+      <%}else if(roleHasPermission.includes("View Employees")){ %>
+        <span class="nav-link">Employees</span>
+        <% }else if(roleHasPermission.includes("View Holidays")){ %>
+           <span class="nav-link">Holidays</span> 
+       <% } %>
+    </li>
+    <% if(roleHasPermission.includes("View Employees")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/userListing">
+        <span class="menu-icon">
+          <i class="mdi mdi-account"></i>
+        </span>
+        <span class="menu-title">Employee</span>
+      </a>
+      <div class="collapse" id="ui-basic">
+      </div>
+    </li>
+    <%}%>
+   <% if(roleHasPermission.includes("View Holidays")){ %>
+     <li class="nav-item menu-items">
+       <a class="nav-link" href="/holidayListing">
+         <span class="menu-icon">
+           <i class="mdi mdi-calendar"></i>
+        </span>
+        <span class="menu-title">Holidays</span>
+      </a>
+      <div class="collapse" id="ui-basic">
+      </div>
+    </li>
+   <%}%>
+    <li class="nav-item nav-category">
+      <% if(roleHasPermission.includes("View Roles") && roleHasPermission.includes("View Permissions")){ %>
+        <span class="nav-link">Roles & Permissions</span>
+        <%}else if(roleHasPermission.includes("View Roles")){ %>
+          <span class="nav-link">Roles</span>
+          <% }else if(roleHasPermission.includes("View Permissions")){ %>
+             <span class="nav-link">Permissions</span> 
+         <% } %>
+    </li>
+    <% if(roleHasPermission.includes( "View Roles")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/roleListing">
+        <span class="menu-icon">
+          <i class="mdi mdi-vibrate"></i>
+        </span>
+        <span class="menu-title">Roles</span>
+      </a>
+      <div class="collapse" id="ui-basic">
+      </div>
+    </li>
+    <% } %>
+    <% if(roleHasPermission.includes( "View Permissions")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/viewpermissions">
+        <span class="menu-icon">
+          <i class="mdi mdi-security"></i>
+        </span>
+        <span class="menu-title">Permissions</span>
+      </a>
+      <div class="collapse" id="ui-basic">
+      </div>
+    </li>
+    <% } %>
+
+         
+    <li class="nav-item nav-category">
+      <span class="nav-link">Time Entry</span>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/timeEntryListing">
+        <span class="menu-icon">
+          <i class="mdi mdi-alarm-check"></i>
+        </span>
+        <span class="menu-title">Time Entry</span>
+      </a>
+      <div class="collapse" id="ui-basic">
+      </div>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/newTimeEntry">
+        <span class="menu-icon">
+          <i class="mdi mdi-alarm-check"></i>
+        </span>
+        <span class="menu-title"> New Time Entry</span>
+      </a>
+      <div class="collapse" id="ui-basic">
+      </div>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/timeEntryRequestListing">
+        <span class="menu-icon">
+          <i class="mdi mdi-alarm-check"></i>
+        </span>
+        <span class="menu-title">Time Entry Request</span>
+      </a>
+      <div class="collapse" id="ui-basic">
+      </div>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/showWorkingHour">
+        <span class="menu-icon">
+          <i class="mdi mdi-alarm-check"></i>
+        </span>
+        <span class="menu-title">User Wroking Hour</span>
+      </a>
+      <div class="collapse" id="ui-basic">
+      </div>
+    </li>
+    <!-- <li class="nav-item menu-items">
+        <a class="nav-link" href="pages/forms/basic_elements.html">
+          <span class="menu-icon">
+            <i class="mdi mdi-playlist-play"></i>
+          </span>
+          <span class="menu-title">Form Elements</span>
+        </a>
+      </li> -->
+    <!-- <li class="nav-item menu-items">
+        <a class="nav-link" href="pages/tables/basic-table.html">
+          <span class="menu-icon">
+            <i class="mdi mdi-table-large"></i>
+          </span>
+          <span class="menu-title">Tables</span>
+        </a>
+      </li> -->
+
+   <li class="nav-item nav-category">
+
+      <% if(roleHasPermission.includes("View Projects")){ %>
+        <span class="nav-link">Projects & Tasks</span>
+        <%}else if(roleHasPermission.includes("View Projects")){ %>
+          <span class="nav-link">Projects</span>
+          <% }else if(roleHasPermission.includes("View Tasks")){ %>
+             <span class="nav-link">Tasks</span> 
+         <% } %>
+    </li>
+   <% if(roleHasPermission.includes("View Projects")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/projectslisting">
+        <span class="menu-icon">
+          <i class="mdi mdi-movie"></i>
+        </span>
+        <span class="menu-title">Projects</span>
+      </a>
+    </li>
+    <% } %>
+    <% if(roleHasPermission.includes("View Tasks")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/taskListing">
+        <span class="menu-icon">
+          <i class="mdi mdi-check-box-outline"></i>
+        </span>
+        <span class="menu-title">Tasks</span>
+      </a>
+    </li>
+    <% } %>
+    <!-- <li class="nav-item menu-items">
+        <a class="nav-link" href="/Employee_salaryListing">
+          <span class="menu-icon">
+            <i class="mdi mdi-contacts"></i>
+          </span>
+          <span class="menu-title">Payroll</span>
+        </a>
+      </li> -->
+
+    <li class="nav-item nav-category">
+      <span class="nav-link">Leaves</span>
+    </li>
+    <% if(roleHasPermission.includes("View Leaves")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/employeeLeavesList">
+        <span class="menu-icon">
+          <i class="mdi mdi-account-arrow-left"></i>
+
+        </span>
+        <span class="menu-title">Leaves</span>
+      </a>
+    </li>
+    <% } %>
+    <% if(roleHasPermission.includes("View Leaves Request")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/viewleavesrequest">
+        <span class="menu-icon">
+          <i class="mdi mdi-cancel"></i>
+        </span>
+        <span class="menu-title">Leaves Request</span>
+      </a>
+    </li>
+    <% } %>
+    <% if(roleHasPermission.includes("View All UserLeaves")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/alluserleaves">
+        <span class="menu-icon">
+          <i class="mdi mdi-contacts"></i>
+        </span>
+        <span class="menu-title">All User Leaves</span>
+      </a>
+    </li>
+    <% } %>
+    <li class="nav-item nav-category">
+      <span class="nav-link">Payroll</span>
+    </li>
+    <% if(roleHasPermission.includes("View Salary")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/salaryListing">
+        <span class="menu-icon">
+          <i class="mdi mdi-account-arrow-left"></i>
+        </span>
+        <span class="menu-title">Employee salary</span>
+      </a>
+    </li>
+    <%}%>
+    <!-- <li class="nav-item menu-items">
+      <a class="nav-link" href="/salaryParticularListing">
+        <span class="menu-icon">
+          <i class="mdi mdi-account-arrow-left"></i>
+
+        </span>
+        <span class="menu-title">Salary Particular</span>
+      </a>
+
+    </li> -->
+    <% if(roleHasPermission.includes("View SalaryStructures")){ %>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/salaryStructureListing">
+        <span class="menu-icon">
+          <i class="mdi mdi-account-arrow-left"></i>
+
+        </span>
+        <span class="menu-title">Salary Structure</span>
+      </a>
+    </li>
+    <%}%>
+    <% if(roleHasPermission.includes("View Announcements")){ %>
+    <li class="nav-item nav-category">
+      <span class="nav-link">Announcement</span>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/announcementListing">
+        <span class="menu-icon">
+          <i class="mdi mdi-contacts"></i>
+        </span>
+        <span class="menu-title">Announcements</span>
+      </a>
+
+    </li>
+    <% } %>
+    </li>
+
+  </ul>
+</nav>
+
+<script>
+
+  $(document).ready(function () {
+   
+    $.ajax({
+      type: "POST",
+      url: "/api/getSettingData",
+      data: { 'key': "logo" },
+      dataType: "json",
+      success: function (response) {
+
+        $("#image").html('');
+        // Do something
+        
+        // $("#user_id").append('<option value=' + '>' + "Select User" + '</option>');
+        $("#image").append('<a href="/"><img src = "/public/images/' + response + '" id="logo-img" width ="220px" ></a>');
+      }
+    });
+  });
+
+</script>

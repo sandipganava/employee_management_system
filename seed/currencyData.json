@@ -1,0 +1,256 @@
+{
+    "currencies": [
+        {
+            "currency": "United States Dollar-($)",
+            "code": "USD",
+            "symbol": "$",
+            "name": "Dollar",
+            "plural":"Dollar"
+        },
+        {
+            "currency": "Euro-(€)",
+            "code": "EUR",
+            "symbol": "€",
+            "name": "Euro",
+            "plural":"Euro"
+        },
+        {
+            "currency": "Japanese Yen-(¥)",
+            "code": "JPY",
+            "symbol": "¥",
+            "name": "Yen",
+            "plural":"Yen"
+        },
+        {
+            "currency": "British Pound Sterling-(£)",
+            "code": "GBP",
+            "symbol": "£",
+            "name": "Pound",
+            "plural":"Pound"
+        },
+        {
+            "currency": "Swiss Franc-(HF)",
+            "code": "CHF",
+            "symbol": "CHF",
+            "name": "Franc",
+            "plural":"Franc"
+        },
+        {
+            "currency": "Canadian Dollar-($)",
+            "code": "CAD",
+            "symbol": "$",
+            "name": "Dollar",
+            "plural":"Dollar"
+        },
+        {
+            "currency": "Australian Dollar-($)",
+            "code": "AUD",
+            "symbol": "$",
+            "name": "Dollar",
+            "plural":"Dollar"
+        },
+        {
+            "currency": "Chinese Yuan Renminbi-(¥)",
+            "code": "CNY",
+            "symbol": "¥",
+            "name": "Yuan",
+            "plural":"Yuan"
+        },
+        {
+            "currency": "Indian Rupee-(₹)",
+            "code": "INR",
+            "symbol": "₹",
+            "name": "Rupee",
+            "plural":"Rupees"
+        },
+        {
+            "currency": "Brazilian Real-(R$)",
+            "code": "BRL",
+            "symbol": "R$",
+            "name": "Real",
+            "plural":"Real"
+        },
+        {
+            "currency": "South African Rand-(R)",
+            "code": "ZAR",
+            "symbol": "R",
+            "name": "Rand",
+            "plural":"Rand"
+        },
+        {
+            "currency": "Russian Ruble-(₽)",
+            "code": "RUB",
+            "symbol": "₽",
+            "name": "Ruble",
+            "plural":"Ruble"
+        },
+        {
+            "currency": "Mexican Peso-($)",
+            "code": "MXN",
+            "symbol": "$",
+            "name": "Peso",
+            "plural":"Peso"
+        },
+        {
+            "currency": "South Korean Won-(₩)",
+            "code": "KRW",
+            "symbol": "₩",
+            "name": "Won",
+            "plural":"Won"
+        },
+        {
+            "currency": "Saudi Riyal-(﷼)",
+            "code": "SAR",
+            "symbol": "﷼",
+            "name": "Riyal",
+            "plural":"Riyal"
+        },
+        {
+            "currency": "Singapore Dollar-($)",
+            "code": "SGD",
+            "symbol": "$",
+            "name": "Dollar",
+            "plural":"Dollar"
+        },
+        {
+            "currency": "New Zealand Dollar-($)",
+            "code": "NZD",
+            "symbol": "$",
+            "name": "Dollar",
+            "plural":"Dollar"
+        },
+        {
+            "currency": "Argentine Peso-($)",
+            "code": "ARS",
+            "symbol": "$",
+            "name": "Peso",
+            "plural":"Peso"
+        },
+        {
+            "currency": "Egyptian Pound-(£)",
+            "code": "EGP",
+            "symbol": "£",
+            "name": "Pound",
+            "plural":"Pound"
+        },
+        {
+            "currency": "Nigerian Naira-(₦)",
+            "code": "NGN",
+            "symbol": "₦",
+            "name": "Naira",
+            "plural":"Naira"
+        },
+        {
+            "currency": "Turkish Lira-(₺)",
+            "code": "TRY",
+            "symbol": "₺",
+            "name": "Lira",
+            "plural":"Lira"
+        },
+        {
+            "currency": "Indonesian Rupiah-(Rp)",
+            "code": "IDR",
+            "symbol": "Rp",
+            "name": "Rupiah",
+            "plural":"Rupiah"
+        },
+        {
+            "currency": "Pakistani Rupee-(₨)",
+            "code": "PKR",
+            "symbol": "₨",
+            "name": "Rupee",
+            "plural":"Rupee"
+        },
+        {
+            "currency": "Thai Baht-(฿)",
+            "code": "THB",
+            "symbol": "฿",
+            "name": "Baht",
+            "plural":"Baht"
+        },
+        {
+            "currency": "Vietnamese Dong-(₫)",
+            "code": "VND",
+            "symbol": "₫",
+            "name": "Dong",
+            "plural":"Dong"
+        },
+        {
+            "currency": "Philippine Peso-(₱)",
+            "code": "PHP",
+            "symbol": "₱",
+            "name": "Peso",
+            "plural":"Peso"
+        },
+        {
+            "currency": "Malaysian Ringgit-(RM)",
+            "code": "MYR",
+            "symbol": "RM",
+            "name": "Ringgit",
+            "plural":"Ringgit"
+        },
+        {
+            "currency": "Iranian Rial-(﷼)",
+            "code": "IRR",
+            "symbol": "﷼",
+            "name": "Rial",
+            "plural":"Rial"
+        },
+        {
+            "currency": "Iraqi Dinar-(ع.د)",
+            "code": "IQD",
+            "symbol": "ع.د",
+            "name": "Dinar",
+            "plural":"Dinar"
+        },
+        {
+            "currency": "Israeli Shekel-(₪)",
+            "code": "ILS",
+            "symbol": "₪",
+            "name": "Shekel",
+            "plural":"Shekel"
+        },
+        {
+            "currency": "Norwegian Krone-(kr)",
+            "code": "NOK",
+            "symbol": "kr",
+            "name": "Krone",
+            "plural":"Krone"
+        },
+        {
+            "currency": "Swedish Krona-(kr)",
+            "code": "SEK",
+            "symbol": "kr",
+            "name": "Krona",
+            "plural":"Krona"
+        },
+        {
+            "currency": "Danish Krone-(kr)",
+            "code": "DKK",
+            "symbol": "kr",
+            "name": "Krone",
+            "plural":"Krone"
+        },
+        {
+            "currency": "Polish Złoty-(zł)",
+            "code": "PLN",
+            "symbol": "zł",
+            "name": "Złoty",
+            "plural":"Złoty"
+        },
+        {
+            "currency": "Hungarian Forint-(Ft)",
+            "code": "HUF",
+            "symbol": "Ft",
+            "name": "Forint",
+            "plural":"Forint"
+        },
+        {
+            "currency": "Czech Koruna-(Kč)",
+            "code": "CZK",
+            "symbol": "Kč",
+            "name": "Koruna",
+            "plural":"Koruna"
+        }
+    ]
+}

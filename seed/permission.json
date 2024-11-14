@@ -1,0 +1,76 @@
+{
+  "permission": [
+    {
+      "permission_name": "View Assign Inventory",
+      "permission_description": "You can view Assign Inventory"
+    },
+    {
+      "permission_name": "Update Assign Inventory",
+      "permission_description": "This is for Update Assign Inventory"
+    },
+    {
+      "permission_name": "Delete Assign Inventory",
+      "permission_description": "This is for Delete Assign Inventory"
+    },
+    {
+      "permission_name": "Add Assign Inventory",
+      "permission_description": "This is for add user for assign inventory"
+    },
+    {
+      "permission_name": "View Creation of Inventories",
+      "permission_description": "This is for View Creation of Inventories"
+    },
+    {
+      "permission_name": "Add Creation of Inventories",
+      "permission_description": "This is for Add Creation of Inventories"
+    },
+    {
+      "permission_name": "Delete Creation of Inventories",
+      "permission_description": "This is for Delete Creation of Inventories"
+    },
+    {
+      "permission_name": "Update Creation of Inventories",
+      "permission_description": "This is for Update Creation of Inventories"
+    },
+    {
+      "permission_name": "View Master Inventories",
+      "permission_description": "This is for View Master Inventories"
+    },
+    {
+      "permission_name": "Add Master Inventories",
+      "permission_description": "This is for Add Master Inventories"
+    },
+    {
+      "permission_name": "Update Master Inventories",
+      "permission_description": "This is for Update Master Inventories"
+    },
+    {
+      "permission_name": "Delete Master Inventories",
+      "permission_description": "This is for Delete Master Inventories"
+    },
+    {
+      "permission_name": "View CPU master Item",
+      "permission_description": "This is for View CPU master Item"
+    },
+    {
+      "permission_name": "Add CPU master Item",
+      "permission_description": "This is for Add CPU master Item"
+    },
+    {
+      "permission_name": "Update CPU master Item",
+      "permission_description": "This is for Update CPU master Item"
+    },
+    {
+      "permission_name": "Delete CPU master Item",
+      "permission_description": "This is for Delete CPU master Item"
+    }
+    ]
+}
+
+
+
+
+
+
+
+

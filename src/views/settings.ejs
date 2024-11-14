@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/header.ejs') %>
+  <body>
+    <div class="container-scroller">
+      <%- include('partials/sidebar.ejs') %>
+      <div class="container-fluid page-body-wrapper">
+        <%- include('partials/navbar.ejs') %>
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <section class="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="card-title">Add Setting</h1>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="" id="settingForm" enctype="multipart/form-data"><br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="Name"> Key: <span class="require">*</span></label>
+                                    <input type="text" class="form-control" name="key" id="username"
+                                        placeholder="Enter Setting Name" value="" required onKeyPress="return ValidateAlpha(event);"  oninvalid="this.setCustomValidity('Enter Role Name Here')" oninput="this.setCustomValidity('')">
+                                </div>
+                                <div class="col-4">
+                                    <label for="Name">Type: <span class="require">*</span></label>
+                                    <!-- <input type="text" class="form-control" name="type"
+                                        id="firstname" placeholder="Enter Setting Type" value=""> -->
+
+                                        <select class="form-control text-white" id="type" name="type" >
+                                            <option value="">Select Type</option>
+                                            <option value="text">text</option>
+                                            <option value="image">image</option>
+                                   
+                                        </select>
+                                </div>
+                                <div class="col-4">
+                                    <label for="Name">Value: <span class="require">*</span></label>
+                                    <input type="text" class="form-control" name="value"
+                                        id="value" placeholder="Enter Setting Value " value="" required >
+                                </div>
+                                <div class="col-12 mt-5">
+                                    <button type="submit" name="submit" id="submit"
+                                        class="btn btn-primary">Submit</button>
+                                        <a class="btn btn-danger" href="/settingListing">Back</a>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+          </div>
+          <%- include('partials/footer.ejs') %>
+  </body>
+</html> 
+<script>
+  $(document).ready(function () {
+    $('#myTable').DataTable();
+  });
+
+  function openModal(modal_id) {
+    //$('.confirm-delete').addClass('hide');
+    $('#myModal_' + modal_id + '.modal-header, .modal-footer, .modal-body').removeClass('hide');
+    $('#myModal_' + modal_id).modal('show');
+  }
+
+</script>
+
+
+<script>
+    $('select').on('change', function() {
+        if(this.value=="text"){
+            $('#value').attr('type', 'text');
+        }
+        if(this.value=="image"){
+            $('#value').attr('type', 'file');
+        }
+        
+//   alert( this.value );
+});
+
+$(document).ready(function ($) {
+
+$("#settingForm").validate({
+  rules: {
+    key: {
+      required: true,
+      minlength:3
+    },
+    type: {
+      required: true,
+     
+      
+      // minlength: 5
+    },
+    value: {
+      required: true,
+      extension: "jpg|jpeg|png|ico|bmp",
+      filesize: 1048576 
+      // minlength: 5
+    },
+
+
+  },
+  messages: {
+    // personal_email: "Please enter your valid Personal Email",
+    key: {
+      required: "Key is reqired",
+      minlength: "Key Name Must contain 3 letter"
+    },
+    type: {
+      required: "Type is required",
+  
+    },
+    value: {
+      required: "Value is required",
+      extension: "Only image type jpg/png/jpeg/gif is allowed less than 1MB"
+     
+    },
+
+    
+  },
+
+
+
+});
+});
+</script>

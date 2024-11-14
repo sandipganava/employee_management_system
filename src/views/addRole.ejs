@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/header.ejs') %>
+  <body>
+    <div class="container-scroller">
+      <%- include('partials/sidebar.ejs') %>
+      <div class="container-fluid page-body-wrapper">
+        <%- include('partials/navbar.ejs') %>
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <section class="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Add Role</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="" id="roleForm"><br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="Name"> Role Name: <span class="require">*</span></label>
+                                    <input type="text" class="form-control" name="role_name" id="username"
+                                        placeholder="Enter Role Name" value="" required onKeyPress="return ValidateAlpha(event);"  oninvalid="this.setCustomValidity('Enter Role Name Here')" oninput="this.setCustomValidity('')">
+                                </div>
+                                <div class="col-6">
+                                    <label for="Name">Role Desciption:</label>
+                                    <input type="text" class="form-control" name="role_description"
+                                        id="firstname" placeholder="Enter Role Description" value=""  onKeyPress="return ValidateAlpha(event);"  oninvalid="this.setCustomValidity('Enter Role Desciption Here')" oninput="this.setCustomValidity('')">
+                                </div>
+                                <div class="col-12 mt-5">
+                                    <button type="submit" name="submit" id="submit"
+                                        class="btn btn-primary">Submit</button>
+                                        <a class="btn btn-danger" href="/roleListing">Back</a>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+          </div>
+          <%- include('partials/footer.ejs') %>
+  </body> 
+</html> 
+<script>
+  $(document).ready(function () {
+    $('#myTable').DataTable();
+  });
+
+  function openModal(modal_id) {
+    //$('.confirm-delete').addClass('hide');
+    $('#myModal_' + modal_id + '.modal-header, .modal-footer, .modal-body').removeClass('hide');
+    $('#myModal_' + modal_id).modal('show');
+  }
+  $(document).ready(function ($) {
+  $("#roleForm").validate({
+  rules: {
+    role_name: {
+      required: true,
+      minlength:3
+    },
+  },
+  messages: {
+    role_name: {
+      required: "Role Name is reqired",
+      minlength: "Role Name Must contain 3 letter"
+    },
+  },
+
+});
+});
+</script>
+

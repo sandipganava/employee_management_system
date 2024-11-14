@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/header.ejs') %>
+  <body>
+    <div class="container-scroller">
+      <%- include('partials/sidebar.ejs') %>
+      <div class="container-fluid page-body-wrapper">
+        <%- include('partials/navbar.ejs') %>
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <section class="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="card-title">Edit Settings</h1>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="" id="settingForm" enctype="multipart/form-data"><br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="Name"> Key: <span class="require">*</span></label>
+                                    <input type="text" class="form-control" name="key" id="username"
+                                        placeholder="Enter Setting Name" value="<%=settingData.key%>" required onKeyPress="return ValidateAlpha(event);"  oninvalid="this.setCustomValidity('Enter Role Name Here')" oninput="this.setCustomValidity('')">
+                                </div>
+                                <div class="col-4">
+                                    <label for="Name">Type: <span class="require">*</span></label>
+                                    <!-- <input type="text" class="form-control" name="type"
+                                        id="firstname" placeholder="Enter Setting Type" value=""> -->
+                                        
+                                        <select class="form-control text-white" id="type" name="type" >
+                                            <option value="">Select Type</option>
+                                            <option id="text" value="text" <%= (settingData.type == 'text') ? 'selected=selected' : ''; %>>text</option>
+                                            <option id="images" value="image" <%= (settingData.type == 'image') ? 'selected=selected' : ''; %>>image</option>
+                                        </select>
+                                </div>
+                                <div class="col-4">
+                                    <label for="Name">Value: <span class="require">*</span></label>
+                                    <% if (settingData.type == 'text'){ %>
+                                    <input type="text" class="form-control" name="value"
+                                        id="value" placeholder="Enter Setting Value " value="<%=settingData.value%>" required >
+                                        <% }else if(settingData.type == 'image'){ %>
+                                            <img src="/public/images/<%=settingData.value%>" class="img-responsive" height="100px" width="100px" />
+                                            <input type="file" name="value" id="value" placeholder="Select Image File" class="form-control" value="<%=settingData.value%>" >
+                                        <% } %>
+                                </div>
+                                <div class="col-12 mt-5">
+                                    <button type="submit" name="submit" id="submit"
+                                        class="btn btn-primary">Submit</button>
+                                        <a class="btn btn-danger" href="/settingListing">Back</a>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+          </div>
+          <%- include('partials/footer.ejs') %>
+  </body>
+</html> 
+
+<script>
+    $('select').on('change', function() {
+        if(this.value=="text"){
+            $('#value').attr('type', 'text');
+        }
+        if(this.value=="image"){
+            $('#value').attr('type', 'file');
+        }
+
+
+});
+$(document).ready(function ($) {
+
+$("#settingForm").validate({
+  rules: {
+    key: {
+      required: true,
+      minlength:3
+    },
+    type: {
+      required: true,
+     
+      
+      // minlength: 5
+    },
+    value: {
+      required: true,
+      // minlength: 5
+    },
+
+
+  },
+  messages: {
+    // personal_email: "Please enter your valid Personal Email",
+    key: {
+      required: "Key is reqired",
+      minlength: "Key Name Must contain 3 letter"
+    },
+    type: {
+      required: "Type is required",
+  
+    },
+    value: {
+      required: "Value is required",
+     
+    },
+
+    
+  },
+
+
+
+});
+});
+</script>

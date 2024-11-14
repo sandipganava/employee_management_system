@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/header.ejs') %>
+  <body>
+    <div class="container-scroller">
+      <%- include('partials/sidebar.ejs') %>
+      <div class="container-fluid page-body-wrapper">
+        <%- include('partials/navbar.ejs') %>
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <section class="content">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="card-title">Add Permission</h1>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="" id="permissionForm"><br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="permission_name">Permission Name:</label>
+                                    <input type="text" onKeyPress="return ValidateAlpha(event);"  oninvalid="this.setCustomValidity('Enter Perminssion Name Here')" oninput="this.setCustomValidity('')" class="form-control"
+                                    value="" required="required" placeholder="Enter Permission Name" id="permission_name" name="permission_name">
+                                </div>
+                                <div class="col-6">
+                                    <label for="permission_description">Permission Discription:</label>
+                                    <input type="text" class="form-control" onKeyPress="return ValidateAlpha(event);"  oninvalid="this.setCustomValidity('Enter Perminssion Description Here')" oninput="this.setCustomValidity('')"   id="permission_description" placeholder="Enter Permission Description" name="permission_description">     
+                                </div>
+                                <div class="col-12 mt-5">
+                                    <button type="submit" name="submit" id="submit" class="btn btn-primary">Submit</button>
+                                    <a class="btn btn-danger" href="/viewpermissions">Back</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+          </div>
+          <%- include('partials/footer.ejs') %>
+  </body>
+</html> 
+<script>
+  $(document).ready(function () {
+    $('#myTable').DataTable();
+  });
+
+  function openModal(modal_id) {
+    //$('.confirm-delete').addClass('hide');
+    $('#myModal_' + modal_id + '.modal-header, .modal-footer, .modal-body').removeClass('hide');
+    $('#myModal_' + modal_id).modal('show');
+  }
+
+  $(document).ready(function ($) {
+  $("#permissionForm").validate({
+  rules: {
+    permission_name: {
+      required: true,
+      minlength:3
+    },
+  },
+  messages: {
+    permission_name: {
+      required: "Permission Name is reqired",
+      minlength: "Permission Name Must contain 3 letter"
+    },
+  },
+
+});
+});
+</script>
+

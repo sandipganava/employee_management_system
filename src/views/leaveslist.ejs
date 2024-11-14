@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/header.ejs') %>
+
+<style>
+    .dropdownselect{
+        background-color: black;
+        color: #ffffff;
+        float: right;
+        width: 11%;
+        height: 28px;
+        border-radius: 8px;
+    }
+   </style>
+
+    <body>
+        <div class="container-scroller">
+            <%- include('partials/sidebar.ejs') %>
+                <div class="container-fluid page-body-wrapper">
+                    <%- include('partials/navbar.ejs') %>
+                        <div class="main-panel">
+                            <div class="content-wrapper">
+                                <div class="row ">
+                                    <div class="col-12 grid-margin">
+                                        <div class="card">
+                                            <div class="card-body">
+                                               
+                                                <h1 class="card-title">Leaves Request </h4>
+                                                    <select class="col-2 ml-3 dropdownselect"
+                                                    onchange="filterData() " id="year" name="year">
+                                                    <option value="" selected="true">Select Year</option>
+                                                    <option value="2022-2023">2022-2023</option>
+                                                    <option value="2023-2024">2023-2024</option>
+                                                    <option value="2024-2025">2024-2025</option>
+                                                </select>
+
+                                                <select id='user' class="col-3 ml-3 dropdownselect"
+                                                    onchange="filterData()">
+                                                    <option value="" selected>Select User</option>
+                                                    <% if (userData) { %>
+                                                        <% for(var i=0; i < userData.length; i++) { %>
+
+                                                            <option value="<%= userData[i]._id %>">
+                                                                <%= userData[i].firstname +" "+ userData[i].last_name%>
+                      </option>
+                      <% } %>
+                        <% }%>
+                </select>
+
+                                                    <div class="table-responsive">
+                                                        <table class="table" id="myTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Employee name</th>
+                                                                    <th>Date From</th>
+                                                                    <th>Date To</th>
+                                                                    <th>Days</th>
+                                                                    <th>Reason</th>
+                                                                    <th>Is-Adhoc</th>
+                                                                    <th>Day Type</th>
+                                                                    <th>Status</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                           
+                                                            <tbody id="leavesData">
+
+                                                            <%if(sess.userData._id == sess.userData.reporting_user_id && sess.userData.roleData[0].role_name == "Admin"){%>
+                                                                
+                                                                <% adminLeavesrequestData = adminLeavesrequestData.reverse()%>
+                                                                <% if (adminLeavesrequestData) { %>
+                                                                    <% var k=1; %>
+                                                                        <% adminLeavesrequestData.forEach(function(u,i) { %>
+                                                                          
+                                                                            <tr id="leave<%=i%>">
+                                                                                <td>
+                                                                                    <%= (k++) %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <% u.userData.forEach(function(r) { %>
+                                                                                        <%= r.firstname %>
+                                                                                            <% }) %>
+                                                                                </td>
+                                                                            </td>
+                                                                            <% let newDate=new Date(u.datefrom)%>
+                                                                            <td>
+                                                                                <%= newDate.toISOString().split('T')[0].split("-").reverse().join("-")
+                                                                                %>
+                                                                            </td>
+                                                                            <% let endDate=new Date(u.dateto) %>
+                                                                            <td>
+                                                                                <%= endDate.toISOString().split('T')[0].split("-").reverse().join("-")
+                                                                                %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= u.total_days %>  
+                                                                            </td>
+                                                                          
+                                                                            <td>
+                                                                                <%= u.reason %>
+                                                                            </td>
+                                                                            
+                                                                            <td>
+                                                                                <%= (u.is_adhoc=="0" ? "No":"Yes") %>
+                                                                            </td>
+                                                                            <% //console.log(u.half_day); %>
+                                                                            <td>
+                                                                                <%= (u.half_day=="" ? "Full Day":u.half_day) %>
+                                                                            </td>
+
+                                                                            <% if (u.status=="APPROVED" ||
+                                                                            u.status=="REJECTED" ){ %>
+                                                                            <td>
+                                                                                <% if(u.status=="APPROVED"
+                                                                                    ) { %>
+                                                                                        <div
+                                                                                        class="badge badge-outline-success">
+                                                                                        Approved</div>
+                                                                                        
+                                                                                    </span>
+                                                                                    <% } else { %>
+                                                                                        <% if(u.status=="APPROVED"
+                                                                                            ) { %>
+                                                                                                
+                                                                                                <%}%>
+                                                                                        <div
+                                                                                            class="badge badge-outline-danger">
+                                                                                            Rejected
+                                                                                        </div>
+                                                                                        <% } %>
+                                                                                            </span>
+                                                                            </td>
+                                                                                            </td>
+                                                                                            <% }else{ %>
+                                                                                                <td id="child">
+                                                                                                    <a href="/approveLeaves/<%= u._id %>"
+                                                                                                        class=""><i
+                                                                                                            class="fa-regular fa-square-check fa-2x text-success "></i></a>
+                                                                                                    <a href="/rejectLeaves/<%= u._id %>"
+                                                                                                        class=" text-dark ml-3"><i
+                                                                                                            class="fa-regular fa-rectangle-xmark fa-2x text-danger   "></i></a>
+                                                                                                </td>
+                                                                                                <% } %>
+                                                                                                <% if(updateStatus==true || deleteStatus==true ){ %>
+                                                                                                    <td>
+                                                                                                        <% if(updateStatus==true){%>
+                                                                                                            <a href="/editLeave/<%= u._id %>" class="btn btn-lg"><i
+                                                                                                                class="fa-solid fa-pen-to-square fa-2x text-primary"></i></a>
+                                                                                                                <% } %>
+                                                                                                                <% if(deleteStatus==true){%>
+                                                                                                                <a href="/deleteLeaves/<%= u._id %>" data-toggle="modal"
+                                                                                                            onclick="return openModal('<%= u._id %>')" class="btn btn-lg"><i
+                                                                                                                class="fas fa-trash-alt fa-2x text-danger"></i></a>
+                                                                                                                <%}%>
+                                                                                                    </td>
+                                                                                                    <%}%>
+                    
+                                                                                                    <div class="modal" id="myModal_<%= u._id %>">
+                                                                                                        <div class="modal-dialog">
+                                                                                                            <div class="modal-content">
+                                                                                                                <!-- <div class="icon-box"> -->
+                                                                                                                    <!-- </div> -->
+                    
+                                                                                                                    <i class="fa-regular fa-circle-xmark fa-5x bg-white pt-2 text-danger"></i>
+                                                                                                                    <div class=" bg-white text-black text-center pt-4" style="height: 170px;">
+                                                                                                                    <h4 class="modal-title">Are you sure you
+                                                                                                                        want to delete this Leave ??</h4>
+                                                                                                                        <div class="text-center bg-white pt-4">
+                                                                                                                            <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal"><a
+                                                                                                                                class="Close" style="text-decoration: none;">No</a></button>
+                                                                                                                             
+                                                                                                                                <a class="btn btn-lg btn-danger" class="Yes" 
+                                                                                                                                    href="/deleteLeaves/<%= u._id %>">Yes</a>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+
+
+                                                                            </tr>
+
+
+
+                                                                            <% }) %>
+                                                                                <% } %>
+
+
+
+                                                            <% }else if(sess.userData.roleData[0].role_name == "Admin") {%>
+                                                                <% adminLeavesrequestData = adminLeavesrequestData.reverse()%>
+                                                                    <% if (adminLeavesrequestData) { %>
+                                                                        <% var k=1; %>
+                                                                            <% adminLeavesrequestData.forEach(function(u,i) { %>    
+                                                                              
+                                                                                <tr id="leave<%=i%>">
+                                                                                    <td>
+                                                                                        <%= (k++) %>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <% u.userData.forEach(function(r) { %>
+                                                                                            <%= r.firstname %>
+                                                                                                <% }) %>
+                                                                                    </td>
+                                                                                </td>
+                                                                                <% let newDate=new Date(u.datefrom)%>
+                                                                                <td>
+                                                                                    <%= newDate.toISOString().split('T')[0].split("-").reverse().join("-")
+                                                                                    %>
+                                                                                </td>
+                                                                                <% let endDate=new Date(u.dateto) %>
+                                                                                <td>
+                                                                                    <%= endDate.toISOString().split('T')[0].split("-").reverse().join("-")
+                                                                                    %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= u.total_days %>  
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= u.reason %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= (u.is_adhoc=="0" ? "No":"Yes") %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%= (u.half_day=="" ? "Full Day":u.half_day) %>
+                                                                                </td>
+                                                                                
+                                                                                <% if (u.status=="APPROVED" ||
+                                                                                u.status=="REJECTED" ){ %>
+                                                                                <td>
+                                                                                    <% if(u.status=="APPROVED"
+                                                                                        ) { %>
+                                                                                            <div
+                                                                                            class="badge badge-outline-success">
+                                                                                            Approved</div>
+                                                                                            
+                                                                                        </span>
+                                                                                        <% } else { %>
+                                                                                            <% if(u.status=="APPROVED"
+                                                                                                ) { %>
+                                                                                                    
+                                                                                                    <%}%>
+                                                                                            <div
+                                                                                                class="badge badge-outline-danger">
+                                                                                                Rejected
+                                                                                            </div>
+                                                                                            <% } %>
+                                                                                                </span>
+                                                                                </td>
+                                                                                                </td>
+                                                                                                <% }else{ %>
+                                                                                                    <td id="child">
+                                                                                                        <a href="/approveLeaves/<%= u._id %>"
+                                                                                                            class=""><i
+                                                                                                                class="fa-regular fa-square-check fa-2x text-success "></i></a>
+                                                                                                        <a href="/rejectLeaves/<%= u._id %>"
+                                                                                                            class=" text-dark ml-3"><i
+                                                                                                                class="fa-regular fa-rectangle-xmark fa-2x text-danger   "></i></a>
+                                                                                                    </td>
+                                                                                                    <% } %>
+                                                                                                 
+                                                                                                    <% if(updateStatus==true || deleteStatus==true ){ %>
+                                                                                                        <td>
+                                                                                                            <% if(updateStatus==true){%>
+                                                                                                                <a href="/editLeave/<%= u._id %>" class="btn btn-lg"><i
+                                                                                                                    class="fa-solid fa-pen-to-square fa-2x text-primary"></i></a>
+                                                                                                                    <% } %>
+                                                                                                                    <% if(deleteStatus==true){%>
+                                                                                                                    <a href="/deleteLeaves/<%= u._id %>" data-toggle="modal"
+                                                                                                                onclick="return openModal('<%= u._id %>')" class="btn btn-lg"><i
+                                                                                                                    class="fas fa-trash-alt fa-2x text-danger"></i></a>
+                                                                                                                    <%}%>
+                                                                                                        </td>
+                                                                                                        <%}%>
+                        
+                                                                                                        <div class="modal" id="myModal_<%= u._id %>">
+                                                                                                            <div class="modal-dialog">
+                                                                                                                <div class="modal-content">
+                                                                                                                    <!-- <div class="icon-box"> -->
+                                                                                                                        <!-- </div> -->
+                        
+                                                                                                                        <i class="fa-regular fa-circle-xmark fa-5x bg-white pt-2 text-danger"></i>
+                                                                                                                        <div class=" bg-white text-black text-center pt-4" style="height: 170px;">
+                                                                                                                        <h4 class="modal-title">Are you sure you
+                                                                                                                            want to delete this Leave ??</h4>
+                                                                                                                            <div class="text-center bg-white pt-4">
+                                                                                                                                <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal"><a
+                                                                                                                                    class="Close" style="text-decoration: none;">No</a></button>
+                                                                                                                                 
+                                                                                                                                    <button class="btn btn-danger btn-lg  ml-3"><a class="text-white"  style="text-decoration: none;" class="Yes"
+                                                                                                                                        href="/deleteLeaves/<%= u._id %>">Yes</a>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+    
+                                                                                </tr>
+    
+    
+    
+                                                                                <% }) %>
+                                                                                    <% } %>
+    
+    
+                                                            
+                                                                <%}else{%>
+
+
+                                                            
+                                                                <% leavesData = leavesData.reverse()%>
+                                                                <% if (leavesData) { %>
+                                                                    <% var k=1; %>
+                                                                        <% leavesData.forEach(function(u,i) { %>
+                                                                          
+                                                                            <tr id="leave<%=i%>">
+                                                                                <td>
+                                                                                    <%= (k++) %>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <% u.userData.forEach(function(r) { %>
+                                                                                        <%= r.firstname %>
+                                                                                            <% }) %>
+                                                                                </td>
+                                                                            </td>
+                                                                            <% let newDate=new Date(u.datefrom)%>
+                                                                            <td>
+                                                                                <%= newDate.toISOString().split('T')[0].split("-").reverse().join("-")
+                                                                                %>
+                                                                            </td>
+                                                                            <% let endDate=new Date(u.dateto) %>
+                                                                            <td>
+                                                                                <%= endDate.toISOString().split('T')[0].split("-").reverse().join("-")
+                                                                                %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= u.total_days %>  
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= u.reason %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= (u.is_adhoc=="0" ? "No":"Yes") %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= (u.half_day=="" ? "Full Day":u.half_day) %>
+                                                                            </td>
+                                                                                        <% if (u.status=="APPROVED" ||
+                                                                                            u.status=="REJECTED" ){ %>
+                                                                                            <td>
+                                                                                                <% if(u.status=="APPROVED"
+                                                                                                    ) { %>
+                                                                                                        <div
+                                                                                                        class="badge badge-outline-success">
+                                                                                                        Approved</div>
+                                                                                                        
+                                                                                                    
+                                                                                                    <% } else { %>
+                                                                                                        <% if(u.status=="APPROVED"
+                                                                                                            ) { %>
+                                                                                                                
+                                                                                                                <%}%>
+                                                                                                        <div
+                                                                                                            class="badge badge-outline-danger">
+                                                                                                            Rejected
+                                                                                                        </div>
+                                                                                                        <% } %>
+                                                                                                          
+                                                                                            </td>
+                                                                                            <% }else{ %>
+                                                                                                <td id="child">
+                                                                                                    <a href="/approveLeaves/<%= u._id %>"
+                                                                                                        class=""><i
+                                                                                                            class="fa-regular fa-square-check fa-2x text-success "></i></a>
+                                                                                                    <a href="/rejectLeaves/<%= u._id %>"
+                                                                                                        class=" text-dark ml-3"><i
+                                                                                                            class="fa-regular fa-rectangle-xmark fa-2x text-danger   "></i></a>
+                                                                                                </td>
+                                                                                                <% } %>
+                                                                                               
+                                                                                                <% if(updateStatus==true || deleteStatus==true ){ %>
+                                                                                                    <td>
+                                                                                                        <% if(updateStatus==true){%>
+                                                                                                            <a href="/editLeave/<%= u._id %>" class="btn btn-lg"><i
+                                                                                                                class="fa-solid fa-pen-to-square fa-2x text-primary"></i></a>
+                                                                                                                <% } %>
+                                                                                                                <% if(deleteStatus==true){%>
+                                                                                                                <a href="/deleteLeaves/<%= u._id %>" data-toggle="modal"
+                                                                                                            onclick="return openModal('<%= u._id %>')" class="btn btn-lg"><i
+                                                                                                                class="fas fa-trash-alt fa-2x text-danger"></i></a>
+                                                                                                                <%}%>
+                                                                                                    </td>
+                                                                                                    <%}%>
+                    
+                                                                                                    <div class="modal" id="myModal_<%= u._id %>">
+                                                                                                        <div class="modal-dialog">
+                                                                                                            <div class="modal-content">
+                                                                                                                <!-- <div class="icon-box"> -->
+                                                                                                                    <!-- </div> -->
+                    
+                                                                                                                    <i class="fa-regular fa-circle-xmark fa-5x bg-white pt-2 text-danger"></i>
+                                                                                                                    <div class=" bg-white text-black text-center pt-4" style="height: 170px;">
+                                                                                                                    <h4 class="modal-title">Are you sure you
+                                                                                                                        want to delete this Leave ??</h4>
+                                                                                                                        <div class="text-center bg-white pt-4">
+                                                                                                                            <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal"><a
+                                                                                                                                class="Close" style="text-decoration: none;">No</a></button>
+                                                                                                                             
+                                                                                                                                <button class="btn btn-danger btn-lg  ml-3"><a class="text-white"  style="text-decoration: none;" class="Yes"
+                                                                                                                                    href="/deleteLeaves/<%= u._id %>">Yes</a>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                            </tr>
+
+
+
+                                                                            <% }) %>
+                                                                                <% } %>
+                                                                                <% } %>
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%- include('partials/footer.ejs') %>
+
+    </body>
+
+</html>
+<script>
+    // $(document).ready(function () {
+    //     $('#myTable').DataTable();
+    // });
+
+    function openModal(modal_id) {
+        //$('.confirm-delete').addClass('hide');
+        $('#myModal_' + modal_id + '.modal-header, .modal-footer, .modal-body').removeClass('hide');
+        $('#myModal_' + modal_id).modal('show');
+    }
+
+
+    $('#child').closest('tr').addClass('addborder')
+
+    function filterData(){
+        var year = $('#year').val();
+        var user_id = $('#user').val();
+        var data = {};
+        if (year) {
+            data.year = year;
+        }
+        if (user_id) {
+            data.user_id = user_id;
+        }
+        $('#myTable').DataTable().destroy();
+    
+    $.ajax({
+        type: "post",
+        url: "/api/filterLeaveData/",
+        data: data,
+        success: function (response) {
+            //console.log(response)
+            $("#leavesData").html('');
+            $.map(response.adminLeavesrequestfilter, function (leaveReuest, i) {
+                $.map(leaveReuest.userData, function (user, i) {
+        const totaldate=[]
+        let totalDays=0;
+        const DF=new Date(leaveReuest.datefrom) 
+        const DT=new Date(leaveReuest.dateto)
+        const time_difference=DT.getTime()- DF.getTime() 
+            
+            const oneDay = 24 * 60 * 60 * 1000;
+            if(leaveReuest.half_day ==""){
+                var diffDays = Math.round(Math.abs((DT - DF) / oneDay)) + 1; // Adding 1 to include both start and end dates
+            }else{
+                var diffDays = Math.round(Math.abs((DT - DF) / oneDay)) + 1/2; 
+            }
+            let sundayCount = 0;
+            for (let i = 0; i < diffDays; i++) {
+                const currentDate = new Date(DF.getTime() + (i * oneDay));
+                if (currentDate.getDay() === 0) {
+                    sundayCount++;
+                }
+            }
+            var totalLeaveDay = diffDays - sundayCount
+            
+            
+
+                        element= totalLeaveDay 
+                    totaldate.push(element);
+
+                            totaldate.forEach(item=> {
+                                totalDays += item;
+                                });
+
+                Updatestatus = "<%= updateStatus %>"
+                Deletestatus = "<%= deleteStatus %>"
+
+                if (Updatestatus == "true") {
+
+                    updatecondition = '<a href="/editTimeEntry/' + leaveReuest._id + '" class="btn btn-lg"> <i class="fa-solid fa-pen-to-square fa-2x text-primary"></i></a>'
+                }
+                if (Deletestatus == "true") {
+
+                    deletecondition = '<a href="#" class="btn btn-lg" onclick=" Delete(`' + leaveReuest._id + '`)"  ><i class="fas fa-trash-alt fa-2x text-danger"></i></a>'
+                }
+            //   if (u.status=="APPROVED" ||u.status=="REJECTED" ){
+    
+            //   }
+               var adhoc =  leaveReuest.is_adhoc=="0" ? "No":"Yes"
+               var Day_type = leaveReuest.half_day=="" ? "Full Day":leaveReuest.half_day
+
+               if (leaveReuest.status=="APPROVED" ||  leaveReuest.status=="REJECTED" ){
+
+              if(leaveReuest.status=="APPROVED" ) { 
+              var requestStatus = '<div class="badge badge-outline-success">Approved</div>'
+
+           } else { 
+                 if(leaveReuest.status=="APPROVED"
+        ) { 
+            
+            }
+            var requestStatus = '<div class="badge badge-outline-danger"> Rejected</div>'
+    }
+
+    }else{
+        var requestStatus=  '<a href="/approveLeaves/' + leaveReuest._id + '" class=""><i class="fa-regular fa-square-check fa-2x text-success "></i></a><a href="/rejectLeaves/' + leaveReuest._id + '" class=" text-dark ml-3"><i class="fa-regular fa-rectangle-xmark fa-2x text-danger "></i></a>'
+    } 
+
+
+                  const date_from = new Date(leaveReuest.datefrom);
+                  const DATEFROM = date_from.toISOString().split('T')[0].split("-").reverse().join("-")
+                  const date_to = new Date(leaveReuest.dateto);
+                  const DATETO = date_to.toISOString().split('T')[0].split("-").reverse().join("-")
+
+                $('#leavesData').append('<tr id="' + leaveReuest._id + '"> <td>' + ++i + '</td> <td>' + user.firstname + '</td> <td>' + DATEFROM + '</td>  <td>' + DATETO + '</td> <td>' +totalDays  + '</td><td>' + leaveReuest.reason + '</td> <td>' + adhoc + '</td> <td>' + Day_type +'</td> <td>' + requestStatus +'</td><td>' + updatecondition + deletecondition + '</td> </tr>');
+
+            })
+        })
+            $('#myTable').DataTable()
+        }
+    })
+    }
+    // function selectedMonth(){
+    //   var yearDropdown = document.getElementById("year");
+    //     var selectedValue = yearDropdown.value;
+
+    //     // Get the current month and year
+    //     var today = new Date();
+    //     var currentYear = today.getFullYear();
+    //     var currentMonth = today.getMonth() + 1; // add 1 to match the format of the options
+
+    //     // Calculate the academic year based on the selected value of the dropdown or the current month and year
+    //     var academicYear;
+    //     if (selectedValue) {
+    //         academicYear = selectedValue;
+    //     } else if (currentMonth >= 4) {
+    //         academicYear = (currentYear) + '-' + (currentYear + 1);
+    //     } else {
+    //         academicYear = (currentYear - 1) + '-' + (currentYear);
+    //     }
+
+    //     // Set the selected value of the dropdown
+    //     var options = yearDropdown.options;
+    //     for (var i = 0; i < options.length; i++) {
+    //         if (options[i].value === academicYear) {
+    //             options[i].selected = true;
+    //             break;
+    //         }
+    //     }
+    //   }
+    // window.onload = selectedMonth;
+
+</script>

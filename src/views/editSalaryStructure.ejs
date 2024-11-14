@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/header.ejs') %>
+
+  <body>
+    <div class="container-scroller">
+      <%- include('partials/sidebar.ejs') %>
+        <div class="container-fluid page-body-wrapper">
+          <%- include('partials/navbar.ejs') %>
+            <div class="main-panel">
+              <div class="content-wrapper">
+                <section class="content">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">Edit Salary Structure</h3>
+                    </div>
+                    <div class="card-body">
+                      <form method="post" action=""><br>
+                        <div class="row">
+                          <div class="col-4">
+                            <label for="Name"> User Name: <span class="require">*</span></label>
+                            <select class="form-control test" id="user" name="user_id">
+                              <option value="">--Select User--</option>
+                              <% if (userData) { %>
+                                <% for(var i=0; i < userData.length; i++) { %>
+                                  <%if(userData[i]._id.includes(existuserData._id)){%>
+                                  <% isSelected='selected' %>
+
+                                      <% }else{ %>
+                                          <% isSelected='' %>
+                                              <% } %>
+                                  <option value="<%= userData[i]._id %>"   <%=isSelected %>>
+
+                                    <%= userData[i].firstname %>
+                                  </option>
+                                  <% } %>
+
+                                    <% } %>
+
+                            </select>
+                          </div>
+                          <div class="col-4">
+                            <label for="Name">Month: <span class="require">*</span></label>
+                            <select id='gMonth2' name="month" class="form-control test">
+                              <option value='' selected>--Select Month--</option>
+                              <option value='1'>Janaury</option>
+                              <option value='2'>February</option>
+                              <option value='3'>March</option>
+                              <option value='4'>April</option>
+                              <option value='5'>May</option>
+                              <option value='6'>June</option>
+                              <option value='7'>July</option>
+                              <option value='8'>August</option>
+                              <option value='9'>September</option>
+                              <option value='10'>October</option>
+                              <option value='11'>November</option>
+                              <option value='12'>December</option>
+                            </select>
+                          </div>
+                          <div class="col-4">
+                            <label for="Name">Year: <span class="require">*</span></label>
+                            <select id='gyear' name="year" class="form-control test">
+                              <option value='' selected>--Select Year--</option>
+                              <option value='2022' <%= (salaryStructureData.year == '2022') ? 'selected=selected' : ''; %>  >2022</option>
+                              <option value='2023' <%= (salaryStructureData.year == '2023') ? 'selected=selected' : ''; %> >2023</option>
+                              <option value='2024' <%= (salaryStructureData.year == '2024') ? 'selected=selected' : ''; %>>2024</option>
+                              <option value='2025' <%= (salaryStructureData.year == '2025') ? 'selected=selected' : ''; %>>2025</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row mt-3">
+                          <div class="col-4">
+
+                            <label for="Name"> Employee Code: <span class="require">*</span></label>
+                            <input type="text" class="form-control text-white bg-dark" name="emp_code" id="emp_code"
+                              placeholder="Your Employee Code" value="<%=existuserData.emp_code%>">
+                          </div>
+                          <div class="col-4">
+
+                            <label for="Name"> Designation: <span class="require">*</span></label>
+                            <input type="text" class="form-control text-white bg-dark" name="designation"
+                              id="designation" placeholder="Your Working Day" value="<%=existuserData.emp_code%>">
+                          </div>
+                          <div class="col-4">
+                            <label for="text"> Date Of Joining: <span class="require">*</span></label>
+                            <% var DOJ =  new Date(existuserData.doj)%> 
+                            <input type="text" class="form-control text-white bg-dark" name="doj" id="doj"
+                              placeholder="Your present Day" value= "<%=DOJ.toISOString().split('T')[0].split("-").reverse().join("-")%>">
+                          </div>
+                          <!-- <div class="col-4">
+                            <label for="Name"> Absent Day: <span class="require">*</span></label>
+                            <input type="Number" class="form-control text-white bg-dark" name="absent_days"
+                              id="absent_day" placeholder="Your absent Day">
+                          </div> -->
+                        </div>
+                        <div class="row mt-3">
+                          <div class="col-4">
+                            <label for="Name"> Pan Number: <span class="require">*</span></label>
+                            <input type="text" class="form-control text-white bg-dark" name="pan_number"
+                              id="pan_number" placeholder="Your Leave Balance" value="<%=existuserData.pan_number%>">
+                          </div>
+                          <div class="col-4">
+                            <label for="Name">Bank Name: <span class="require">*</span></label>
+                            <input type="text" class="form-control text-white bg-dark" name="bank_name" id="bank_name"
+                              placeholder="Enter Gross Salary" value="<%=existuserData.bank_name%>">
+                          </div>
+                          <div class="col-4">
+                            <label for="Name"> Bank Account Number : <span class="require">*</span></label>
+                            <input type="number" class="form-control text-white bg-dark" name="bank_account_no"
+                              id="bank_account_no" placeholder="Enter Role Name" value="<%=existuserData.bank_account_no%>">
+                          </div>
+                        </div>
+                        <div class="card mt-5">
+                          <div class="card-header">
+                            <h3 class="card-title"> Salary Particular</h3>
+                          </div>
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-3"><h4>Total Salary: <span class="text-danger">*</span></h4>
+                              </div>
+                              <div class="col-3"><h4><input type="number" class="form-control" onchange="getGrossSalary(); getNetSalary();" id="total_salary" value="<%=salaryStructureData.Total_Salary%>"  name="total_salary"></h4></div>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-4"><h4>Basic Salary: <span class="text-danger">*</span></h4>
+                                        </div>
+                                        <div class="col-8"><h4><input type="number" onchange="getGrossSalary(); getNetSalary();" value="<%=salaryStructureData.Basic_Salary%>"   onchange = "getNetSalary()" class="form-control" id="Basic_Salary" name="Basic_Salary" ></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-4"><h4>House Rent Allow: <span class="text-danger">*</span></h4>
+                                        </div>
+                                        <div class="col-8"><h4><input type="number" id="House_Rent_Allow" value="<%=salaryStructureData.House_Rent_Allow%>" onchange="getGrossSalary(); getNetSalary();"  class="form-control" class="form-control" name="House_Rent_Allow"></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-4"> <h4>Other Allownces:<span class="text-danger">*</span></h4>
+                                        </div>
+                                        <div class="col-8">
+                                          <h4><input type="number" class="form-control" id="Other_Allownces" value="<%=salaryStructureData.Other_Allownces%>" onchange="return getGrossSalary()" class="form-control" name="Other_Allownces"></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-4"><h4>Performance Allownces :<span class="text-danger">*</span></h4>
+                                        </div>
+                                        <div class="col-8"><h4><input type="number" id="Performance_Allownces" value="<%=salaryStructureData.Performance_Allownces%>" onchange="getGrossSalary(); getNetSalary();"  class="form-control"  name="Performance_Allownces">
+                                         </h4></div>
+                                      </div>
+                                    </div>
+      
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-4"><h4>Bonus :<span class="text-danger">*</span></h4>
+                                        </div>
+                                        <div class="col-8"> <h4><input type="number" value="<%=salaryStructureData.Bonus%>" id="Bonus" class="form-control" onchange="getGrossSalary(); getNetSalary();"  class="form-control" name="Bonus"></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-4"><h4>Other:<span class="text-danger">*</span></h4>
+                                        </div>
+                                        <div class="col-8"> <h4><input type="number" id="Other" value="<%=salaryStructureData.Other%>" class="form-control" onchange="getGrossSalary(); getNetSalary();"  name="Other"></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-4"><h4>EL Encashments :<span class="text-danger">*</span></h4>
+                                        </div>
+                                        <div class="col-8"> <h4><input type="number" class="form-control" value="<%=salaryStructureData.EL_Encash_Amount%>"   onchange="getGrossSalary(); getNetSalary();"  name="EL_Encash_Amount"></h4></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-12 mt-3">
+                                  <div class="row">
+                                    <div class="col-4"><h4>GROSS SALARY :<span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-8"> <h4><input type="number" id="gross_salary" value="<%=salaryStructureData.Gross_Salary%>"  class="form-control text-white bg-dark"  disabled name="gross_salary"></h4></div>
+                                  </div>
+                                </div>
+                              </div>
+                          <div class="col-sm-6">
+                            <div class="card" style="height: 83%;">
+                              <div class="card-body">
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-4"><h4>Professional Tax :<span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-8"><h4><input type="number" value="<%=salaryStructureData.Professional_Tax%>" id="Professional_Tax" class="form-control"  onchange=" getTotalDeduction(); getNetSalary();" name="Professional_Tax"></h4></div>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-4"><h4>Income Tax:<span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-8"><h4><input type="number" class="form-control" value="<%=salaryStructureData.Income_Tax%>" id="Income_Tax" onchange="  getTotalDeduction(); getNetSalary();" name="Income_Tax" ></h4></div>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-4"> <h4>Gratuity:<span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-8">
+                                      <h4><input type="number" class="form-control" value="<%=salaryStructureData.Gratuity%>"  onchange="  getTotalDeduction(); getNetSalary();" id="Gratuity" name="Gratuity"></h4></div>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-4"><h4>Provident Fund:<span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-8"><h4><input type="number" value="<%=salaryStructureData.Provident_Fund%>"  onchange="getTotalDeduction(); getNetSalary();" id="Provident_Fund" class="form-control" name="Provident_Fund">
+                                     </h4></div>
+                                  </div>
+                                </div>
+  
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-4"><h4>ESIC :<span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-8"> <h4><input type="number" value="<%=salaryStructureData.ESIC%>"  onchange="  getTotalDeduction(); getNetSalary();" id="ESIC"  class="form-control" name="ESIC"></h4></div>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-4"><h4>Other Deduction:<span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-8"> <h4><input type="number" value="<%=salaryStructureData.Other_Deduction%>" onchange="  getTotalDeduction(); getNetSalary();" id="Other_Deduction" class="form-control" name="Other_Deduction"></h4></div>
+                                  </div>
+                                </div>
+                                <div class="col-12 mt-3">
+                                  <div class="row">
+                                    <div class="col-4"><h4>Total Deduction:<span class="text-danger">*</span></h4>
+                                    </div>
+                                    <div class="col-8"> <h4><input type="number" class="form-control text-white bg-dark" value="<%=salaryStructureData.Total_Deduction%>" id="total_deduction" disabled name="total_deduction"></h4></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 mt-3">
+                              <div class="row">
+                                <div class="col-4"><h4>Net Salary:<span class="text-danger">*</span></h4>
+                                </div>
+                                <div class="col-8"> <h4><input type="number" id="Net_Salary" value="<%=salaryStructureData.Net_Salary%>" class="form-control text-white bg-dark" name="Net_Salary"></h4></div>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                          </div>
+                          </div>
+                          <!-- <div class="card-body">
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-6"><h4>Basic Salary:</h4>
+                                        </div>
+                                        <div class="col-6"><h4><input type="text" name="Basic_Salary" value="<%=salaryStructureData.Basic_Salary%>"></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-6"><h4>House Rent Allow:</h4>
+                                        </div>
+                                        <div class="col-6"><h4><input type="text" name="House_Rent_Allow" value="<%=salaryStructureData.House_Rent_Allow%>"></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-6"> <h4>Other Allownces:</h4>
+                                        </div>
+                                        <div class="col-6">
+                                          <h4><input type="text" name="Other_Allownces" value="<%=salaryStructureData.Other_Allownces%>"></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-6"><h4>Performance Allownces :</h4>
+                                        </div>
+                                        <div class="col-6"><h4><input type="text" name="Performance_Allownces"  value="<%=salaryStructureData.Performance_Allownces%>">
+                                         </h4></div>
+                                      </div>
+                                    </div>
+      
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-6"><h4>Bonus :</h4>
+                                        </div>
+                                        <div class="col-6"> <h4><input type="text" name="Bonus"  value="<%=salaryStructureData.Bonus%>"></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-6"><h4>Other  :</h4>
+                                        </div>
+                                        <div class="col-6"> <h4><input type="text" name="Other"  value="<%=salaryStructureData.Other%>"></h4></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <div class="row">
+                                        <div class="col-6"><h4>EL Encash Amount   :</h4>
+                                        </div>
+                                        <div class="col-6"> <h4><input type="text" name="EL_Encash_Amount"  value="<%=salaryStructureData.EL_Encash_Amount%>"></h4></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          <div class="col-sm-6">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6"><h4>Professional Tax :</h4>
+                                    </div>
+                                    <div class="col-6"><h4><input type="text" name="Professional_Tax" value="<%=salaryStructureData.Professional_Tax%>"></h4></div>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6"><h4>Income Tax:</h4>
+                                    </div> 
+                                    <div class="col-6"><h4><input type="text" name="Income_Tax" value="<%=salaryStructureData.Income_Tax%>"></h4></div>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6"> <h4>Gratuity:</h4>
+                                    </div>
+                                    <div class="col-6">
+                                      <h4><input type="text" name="Gratuity" value="<%=salaryStructureData.Gratuity%>"></h4></div>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6"><h4>Provident Fund:</h4>
+                                    </div>
+                                    <div class="col-6"><h4><input type="text" name="Provident_Fund" value="<%=salaryStructureData.Provident_Fund%>">
+                                     </h4></div>
+                                  </div>
+                                </div>
+  
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6"><h4>ESIC :</h4>
+                                    </div>
+                                    <div class="col-6"> <h4><input type="text" name="ESIC" value="<%=salaryStructureData.ESIC%>"></h4></div>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6"><h4>Other Deduction:</h4>
+                                    </div>
+                                    <div class="col-6"> <h4><input type="text" name="Other_Deduction" value="<%=salaryStructureData.Other_Deduction%>"></h4></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                          </div> -->
+                        <div class="col-12 mt-5">
+                          <button type="submit" name="submit" id="submit" class="btn btn-primary">Submit</button>
+                          <a class="btn btn-danger" href="/salaryStructureListing">Back</a>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <%- include('partials/footer.ejs') %>
+  </body>
+
+</html>
+<script>
+  // alert(user)
+  $("#user").change(function () {
+    var user = $('#user').val()
+    $.ajax({
+      type: "POST",
+      url: "/api/getUserData",
+      data: { 'user': user },
+      dataType: "json",
+      success: function (response) {
+        var emp_code = response.UserData.emp_code;
+        var role = response.UserData.roleName;
+        var DOJ = response.UserData.doj
+        let dateofjoining=new Date(response.UserData.doj) 
+        let pan_Number = response.UserData.pan_number
+        let bank_name = response.UserData.bank_name
+        let bank_account_no = response.UserData.bank_account_no 
+
+          $('#emp_code').val(emp_code)
+          $('#designation').val(role)
+          $('#doj').val(dateofjoining.toISOString().split('T')[0].split("-").reverse().join("-"))
+          $('#pan_number').val(pan_Number)
+          $('#bank_name').val(bank_name)
+          $('#bank_account_no').val(bank_account_no)
+
+      }
+    })
+  })
+  $("#user").change(function () {
+    var user = $('#user').val()
+    $.ajax({
+      type: "POST",
+      url: "/api/getUserData",
+      data: { 'user': user },
+      dataType: "json",
+      success: function (response) {
+        var emp_code = response.UserData.emp_code;
+        var role = response.UserData.roleName;
+        var DOJ = response.UserData.doj
+        let dateofjoining=new Date(response.UserData.doj) 
+        let pan_Number = response.UserData.pan_number
+        let bank_name = response.UserData.bank_name
+        let bank_account_no = response.UserData.bank_account_no 
+
+          $('#emp_code').val(emp_code)
+          $('#designation').val(role)
+          $('#doj').val(dateofjoining.toISOString().split('T')[0].split("-").reverse().join("-"))
+          $('#pan_number').val(pan_Number)
+          $('#bank_name').val(bank_name)
+          $('#bank_account_no').val(bank_account_no)
+
+      }
+    })
+  })
+  $("#total_salary").keyup(function () {
+  var totalSalary = $('#total_salary').val()
+  var Basic_Salary = totalSalary *40 /100
+  $('#Basic_Salary').val(Basic_Salary)
+var House_Rent_Allow = Basic_Salary/2
+$('#House_Rent_Allow').val(Basic_Salary/2)
+$('#Other_Allownces').val(Basic_Salary/2)
+$('#Performance_Allownces').val(Basic_Salary/2)
+  })
+
+  function getGrossSalary() {
+    // alert("asda")
+    var basicSalary = parseFloat($('#Basic_Salary').val()) || 0;
+  var houseRentAllow = parseFloat($('#House_Rent_Allow').val()) || 0;
+  var otherAllowances = parseFloat($('#Other_Allownces').val()) || 0;
+  var performanceAllow = parseFloat($('#Performance_Allownces').val()) || 0;
+  var bonus = parseFloat($('#Bonus').val()) || 0;
+  var other = parseFloat($('#Other').val()) || 0;
+  var elEncashments = parseFloat($('#EL_Encash_Amount').val()) || 0;
+
+  var totalSalary = basicSalary + houseRentAllow + otherAllowances + performanceAllow + bonus + other + elEncashments;
+
+  $('#gross_salary').val(totalSalary);
+}
+function getTotalDeduction() {
+    // alert("asda")
+    var Professional_Tax = parseFloat($('#Professional_Tax').val()) || 0;
+  var Income_Tax = parseFloat($('#Income_Tax').val()) || 0;
+  var Gratuity = parseFloat($('#Gratuity').val()) || 0;
+  var Provident_Fund = parseFloat($('#Provident_Fund').val()) || 0;
+  var ESIC = parseFloat($('#ESIC').val()) || 0;
+  var Other_Deduction = parseFloat($('#Other_Deduction').val()) || 0;
+
+  var totalDeduction = Professional_Tax + Income_Tax + Gratuity + Provident_Fund + ESIC + Other_Deduction ;
+  $('#total_deduction').val(totalDeduction)
+}
+
+function getNetSalary (){
+  var basicSalary = parseFloat($('#Basic_Salary').val()) || 0;
+  var houseRentAllow = parseFloat($('#House_Rent_Allow').val()) || 0;
+  var otherAllowances = parseFloat($('#Other_Allownces').val()) || 0;
+  var performanceAllow = parseFloat($('#Performance_Allownces').val()) || 0;
+  var bonus = parseFloat($('#Bonus').val()) || 0;
+  var other = parseFloat($('#Other').val()) || 0;
+  var elEncashments = parseFloat($('#EL_Encash_Amount').val()) || 0;
+
+  var totalSalary = basicSalary + houseRentAllow + otherAllowances + performanceAllow + bonus + other + elEncashments;
+
+  var Professional_Tax = parseFloat($('#Professional_Tax').val()) || 0;
+  var Income_Tax = parseFloat($('#Income_Tax').val()) || 0;
+  var Gratuity = parseFloat($('#Gratuity').val()) || 0;
+  var Provident_Fund = parseFloat($('#Provident_Fund').val()) || 0;
+  var ESIC = parseFloat($('#ESIC').val()) || 0;
+  var Other_Deduction = parseFloat($('#Other_Deduction').val()) || 0;
+  var totalDeduction = Professional_Tax + Income_Tax + Gratuity + Provident_Fund + ESIC + Other_Deduction ;
+  $('#Net_Salary').val( totalSalary-totalDeduction );
+} 
+
+
+
+
+</script>
